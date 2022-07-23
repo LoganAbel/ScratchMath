@@ -1,4 +1,4 @@
-const vec = v => v.split(' ')
+const vec = v => v.split(' ').map(v=>+v)
 const str = v => v.join(' ')
 
 class DeviceInfo {
@@ -30,9 +30,8 @@ class DeviceInfo {
   }
 
   Add({a, b}) {
-    return a
-    //[a, b] = [vec(a), vec(b)]
-    //return str([a[0]+b[0], a[1]+b[1]])
+    [a, b] = [vec(a), vec(b)]
+    return str([a[0]+b[0], a[1]+b[1]])
   }
 }
 
