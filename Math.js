@@ -1,5 +1,3 @@
-(()=>{
-
 const vec = v => v.split(' ')
 const str = v => v.join(' ')
 
@@ -38,5 +36,3 @@ class DeviceInfo {
 }
 
 Scratch.extensions.register(new DeviceInfo());
-
-})()
