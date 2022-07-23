@@ -35,14 +35,6 @@ class DeviceInfo {
     a, b = vec(a), vec(b)
     return str([a[0]+b[0], a[1]+b[1]])
   }
-  
-  this.vec(v) {
-   return v.split(" ") 
-  }
-  
-  str(v) {
-   return v.join(" ") 
-  }
 }
 
 Scratch.extensions.register(new DeviceInfo());
