@@ -72,7 +72,7 @@ class Math {
     return vec(v)[1]
   }
   
-  GetY({v}) {
+  GetZ({v}) {
     return vec(v)[2]
   }
 }
