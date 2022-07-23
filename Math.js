@@ -1,30 +1,44 @@
 const vec = v => v.split(' ').map(v=>+v)
 const str = v => v.join(' ')
-const vec_args = n => Object.fromEntries(
-  new Array(n).fill().map((_,i) => [
-    String.fromCharCode(97 + i), 
-    { 
-      type: "string", 
-      defaultValue: str([i*2+1, i*2+2]) 
-    }
-  ])
-)
 
-class DeviceInfo {
+const arg = type => defaultValue => ({
+  type,
+  defaultValue
+})
+const str_arg = arg("string")
+const num_arg = arg("number")
+
+const block = blockType => (opcode, text, arguments) => ({
+  blockType,
+  opcode,
+  text,
+  arguments
+})
+const reporter = block("reporter")
+
+class Math {
   constructor() {
   }
 
   getInfo() {
     return {
-      "id": "deviceInfo",
-      "name": "Device Info",
-      "blocks": [
-        {
-          opcode: "Add",
-          text: "[a] + [b]",
-          blockType: "reporter",
-          arguments: vec_args(2)
-        },
+      id: "math",
+      name: "Math",
+      blocks: [
+        reporter("Add", "[a] + [b]", {
+          a: str_arg("1 2"),
+          b: str_arg("3 4")
+        }),
+        reporter("Vec", "vector [x] [y]", {
+          x: num_arg("1"),
+          y: num_arg("2")
+        }),
+        reporter("GetX", "[v].x", {
+          v: str_arg("1 2")
+        }),
+        reporter("GetY", "[v].y", {
+          v: str_arg("1 2")
+        }),
       ]
     }
   }
@@ -33,6 +47,18 @@ class DeviceInfo {
     [a, b] = [vec(a), vec(b)]
     return str([a[0]+b[0], a[1]+b[1]])
   }
+  
+  Vec({x, y}) {
+     return str([x, y])
+  }
+  
+  GetX({v}) {
+    return vec(v)[0]
+  }
+  
+  GetY({v}) {
+    return vec(v)[1]
+  }
 }
 
-Scratch.extensions.register(new DeviceInfo());
+Scratch.extensions.register(new Math());
