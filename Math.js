@@ -1,3 +1,6 @@
+const vec = v => v.split(' ')
+const str = v => v.join(' ')
+
 class DeviceInfo {
   constructor() {
   }
@@ -27,10 +30,11 @@ class DeviceInfo {
   }
 
   Add({a, b}) {
-    return str(vec(a) + vec(b))
+    a, b = vec(a), vec(b)
+    return str([a[0]+b[0], a[1]+b[1]])
   }
   
-  vec(v) {
+  this.vec(v) {
    return v.split(" ") 
   }
   
