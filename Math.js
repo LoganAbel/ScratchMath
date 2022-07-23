@@ -29,7 +29,7 @@ class Math {
           a: str_arg("1 2"),
           b: str_arg("3 4")
         }),
-        reporter("Vec", "vector [x] [y]", {
+        reporter("Vec2", "vector [x] [y]", {
           x: num_arg("1"),
           y: num_arg("2")
         }),
@@ -56,8 +56,12 @@ class Math {
     return str(a.map((_,i) => a[i] + b[i]))
   }
   
-  Vec({x, y}) {
+  Vec2({x, y}) {
      return str([x, y])
+  }
+  
+  Vec3({x, y, z}) {
+     return str([x, y, z])
   }
   
   GetX({v}) {
