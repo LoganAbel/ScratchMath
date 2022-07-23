@@ -1,5 +1,14 @@
 const vec = v => v.split(' ').map(v=>+v)
 const str = v => v.join(' ')
+const vec_args = n => Object.fromEntries(
+  new Array(n).fill().map((_,i) => [
+    String.fromCharCode(97 + i), 
+    { 
+      type: "string", 
+      defaultValue: str([i*2+1, i*2+2]) 
+    }
+  ])
+)
 
 class DeviceInfo {
   constructor() {
@@ -12,18 +21,9 @@ class DeviceInfo {
       "blocks": [
         {
           opcode: "Add",
-          blockType: "reporter",
           text: "[a] + [b]",
-          arguments: {
-            a: {
-              type: "string",
-              defaultValue: "1 2"
-            },
-            b: {
-              type: "string",
-              defaultValue: "2 3"
-            }
-          }
+          blockType: "reporter",
+          arguments: vec_args(2)
         },
       ]
     }
