@@ -8,71 +8,34 @@ class DeviceInfo {
       "name": "Device Info",
       "blocks": [
         {
-          "opcode": "deviceBattery",
-          "blockType": "reporter",
-          "text": "device battery",
-          "arguments": {}
+          opcode: "Add",
+          blockType: "reporter",
+          text: "[a] + [b]",
+          arguments: {
+            a: {
+              type: "string",
+              defaultValue: "1 2"
+            },
+            b: {
+              type: "string",
+              defaultValue: "2 3"
+            }
+          }
         },
-        {
-          "opcode": "screenWidth",
-          "blockType": "reporter",
-          "text": "screen width",
-          "arguments": {}
-        },
-        {
-          "opcode": "screenHeight",
-          "blockType": "reporter",
-          "text": "screen height",
-          "arguments": {}
-        },
-        {
-          "opcode": "screenOrientation",
-          "blockType": "reporter",
-          "text": "screen orientation",
-          "arguments": {}
-        },
-        {
-          "opcode": "platform",
-          "blockType": "reporter",
-          "text": "platform",
-          "arguments": {}
-        }
       ]
     }
   }
 
-  deviceBattery() {
-    try {
-      return navigator.getBattery().then((battery) => {
-        return battery.level * 100;
-      });
-    } catch {
-      return "undefined";
-    }
+  Add({a, b}) {
+    return str(vec(a) + vec(b))
   }
-
-  screenWidth() {
-    return screen.width;
+  
+  vec(v) {
+   return v.split(" ") 
   }
-
-  screenHeight() {
-    return screen.height;
-  }
-
-  screenOrientation() {
-    try {
-      return screen.orientation.type;
-    } catch {
-      return "undefined";
-    }
-  }
-
-  platform() {
-    try {
-      return navigator.platform;
-    } catch {
-      return "undefined";
-    }
+  
+  str(v) {
+   return v.join(" ") 
   }
 }
 
