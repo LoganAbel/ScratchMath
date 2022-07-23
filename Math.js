@@ -33,11 +33,19 @@ class Math {
           x: num_arg("1"),
           y: num_arg("2")
         }),
+        reporter("Vec3", "vector [x] [y] [z]", {
+          x: num_arg("1"),
+          y: num_arg("2"),
+          z: num_arg("3")
+        }),
         reporter("GetX", "[v]. x", {
-          v: str_arg("1 2")
+          v: str_arg("1 2 3")
         }),
         reporter("GetY", "[v]. y", {
-          v: str_arg("1 2")
+          v: str_arg("1 2 3")
+        }),
+        reporter("GetZ", "[v]. z", {
+          v: str_arg("1 2 3")
         }),
       ]
     }
@@ -58,6 +66,10 @@ class Math {
   
   GetY({v}) {
     return vec(v)[1]
+  }
+  
+  GetY({v}) {
+    return vec(v)[2]
   }
 }
 
