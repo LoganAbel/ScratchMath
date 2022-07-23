@@ -33,10 +33,10 @@ class Math {
           x: num_arg("1"),
           y: num_arg("2")
         }),
-        reporter("GetX", "[v].x", {
+        reporter("GetX", "[v]. x", {
           v: str_arg("1 2")
         }),
-        reporter("GetY", "[v].y", {
+        reporter("GetY", "[v]. y", {
           v: str_arg("1 2")
         }),
       ]
