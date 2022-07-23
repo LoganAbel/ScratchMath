@@ -1,5 +1,5 @@
 const vec = v => v.split('|').map(v=>v.split(' ').map(v=>+v))
-const str = v => v.join(v.contains(' ') ? '|' : ' ')
+const str = v => v.join(v.includes(' ') ? '|' : ' ')
 
 const arg = type => defaultValue => ({
   type,
