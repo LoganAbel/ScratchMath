@@ -1,5 +1,5 @@
-const vec = v => v.split(' ').map(v=>+v)
-const str = v => v.join(' ')
+const vec = v => v.split('|').map(v=>v.split(' ').map(v=>+v))
+const str = v => v.join(v.contains(' ') ? '|' : ' ')
 
 const arg = type => defaultValue => ({
   type,
@@ -29,11 +29,7 @@ class Math {
           a: str_arg("1 2"),
           b: str_arg("3 4")
         }),
-        reporter("Vec2", "vector [x] [y]", {
-          x: num_arg("1"),
-          y: num_arg("2")
-        }),
-        reporter("Vec3", "vector [x] [y] [z]", {
+        reporter("Vec", "vector [x] [y] [z]", {
           x: num_arg("1"),
           y: num_arg("2"),
           z: num_arg("3")
@@ -53,27 +49,26 @@ class Math {
 
   Add({a, b}) {
     [a, b] = [vec(a), vec(b)]
-    return str(a.map((_,i) => a[i] + b[i]))
+    return str(a.map((r,i) => r.map((_,j)=>a[i][j] + b[i][j])))
   }
   
-  Vec2({x, y}) {
-     return str([x, y])
-  }
-  
-  Vec3({x, y, z}) {
-     return str([x, y, z])
+  Vec({x, y, z}) {
+     return str([[x, y, z]])
   }
   
   GetX({v}) {
-    return vec(v)[0]
+    v = vec(v)
+    return v.length == 1 ? v[0][0] : v[0]
   }
   
   GetY({v}) {
-    return vec(v)[1]
+    v = vec(v)
+    return v.length == 1 ? v[0][1] : v[1]
   }
   
   GetZ({v}) {
-    return vec(v)[2]
+    v = vec(v)
+    return v.length == 1 ? v[0][2] : v[2]
   }
 }
 
