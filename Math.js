@@ -45,7 +45,7 @@ class Math {
 
   Add({a, b}) {
     [a, b] = [vec(a), vec(b)]
-    return str([a[0]+b[0], a[1]+b[1]])
+    return str(a.map((_,i) => a[i] + b[i]))
   }
   
   Vec({x, y}) {
