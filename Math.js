@@ -22,7 +22,7 @@ const sin = a => {
 
 // ============== linear algebra ============== 
 
-const from_s = s => (''+s).split(' ').map(s=> s.split(',').map(v=>+v))
+const from_s = s => (''+s).split(' ').map(s=> s.split(',').map(v=> isNaN(+v) ? 0 : +v))
 const to_s = m => m.map(v=> v.join(',')).join(' ')
 
 const safe_index = (m,i) => m[m.length == 1 ? 0 : i]
