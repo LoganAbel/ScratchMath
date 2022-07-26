@@ -64,8 +64,8 @@ const rotate = (a,v) => {
 
 const letter = i => String.fromCharCode(97+i)
 
-const auto_reporter = (opcode, text, args) => ({
-	blockType: 'reporter',
+const auto_block = (blockType, opcode, text, args) => ({
+	blockType,
 	opcode,
 	text,
 	arguments: Object.fromEntries(
@@ -81,35 +81,70 @@ const mat_reporter_f = f => o => to_s(f(...new Array(Object.entries(o).length).f
 
 class ScratchMath {
 
+	constructor(runtime) {
+		this.runtime = runtime
+	}
+
 	getInfo() {
-    return {
-    	id: "math",
-    	name: "Math",
-    	blocks: [
-        auto_reporter("Vec", "vector [a] [b] [c]"),
-        auto_reporter("Arr", "list [a] [b]"),
-        auto_reporter("Get", "item [a] of [b]"),
-        auto_reporter("Set", "with item [a] of [b] = [c]"),
-        auto_reporter("Rot", "rotate [a] around [b]", ["angle"]),
+	    return {
+	    	id: "math",
+	    	name: "Math",
+	    	blocks: [
+	        auto_block('reporter', "Vec", "vector [a] [b] [c]"),
+	        auto_block('reporter', "Arr", "list [a] [b]"),
+	        auto_block('reporter', "Get", "item [a] of [b]"),
+	        auto_block('reporter', "Set", "with item [a] of [b] = [c]"),
+	        auto_block('reporter', "Rot", "rotate [a] around [b]", ["angle"]),
+	        {
+	        	blockType: 'command',
+	        	opcode: 'Out',
+	        	text: 'output [a] to [b]',
+	        	arguments: {
+	        		a: {
+	        			type: "number",
+	        			defaultValue: " "
+	        		},
+	        		b: {
+	        			type: "string",
+	        			defaultValue:" ",
+	        			menu: "varMenu"
+	        		}
+	        	}
+	        },
 
-        '---',
+	        '---',
 
-        auto_reporter("Add", '[a] + [b]'),
-        auto_reporter("Sub", '[a] - [b]'),
-        auto_reporter("Mul", '[a] * [b]'),
-        auto_reporter("Div", '[a] / [b]'),
-        auto_reporter("Dot", '[a] dot [b]'),
-      	auto_reporter("Cross", '[a] cross [b]'),
-      	auto_reporter("Len", 'length of [a]'),
-      	auto_reporter("Norm",'normalize [a]'),
-      	auto_reporter("Size",'size of [a]'),
-      	
-    	]
-    }
+	        auto_block('reporter', "Add", '[a] + [b]'),
+	        auto_block('reporter', "Sub", '[a] - [b]'),
+	        auto_block('reporter', "Mul", '[a] * [b]'),
+	        auto_block('reporter', "Div", '[a] / [b]'),
+	        auto_block('reporter', "Dot", '[a] dot [b]'),
+	      	auto_block('reporter', "Cross", '[a] cross [b]'),
+	      	auto_block('reporter', "Len", 'length of [a]'),
+	      	auto_block('reporter', "Norm",'normalize [a]'),
+	      	auto_block('reporter', "Size",'size of [a]'),
+	      	auto_block('reporter', "Sqrt",'sqrt of [a]'),
+	      	
+	    	],
+	    	menus: {
+	            varMenu: 'getVarMenu'
+	        }
+	    }
+	}
+
+	getVarMenu(target_id) {
+		const vars = this.runtime.getTargetById(target_id).getAllVariableNamesInScopeByType('list')
+		return vars.length == 0 ? [" "] : vars
 	}
 
 	Vec({a,b,c}) {
 		return to_s([[a,b,c]])
+	}
+
+	Out({a,b}, util) {
+		let variable = util.target.lookupOrCreateList(undefined, b);
+	    if(variable)
+       		variable.value = a.split(' ');
 	}
 
 	Get   = mat_reporter_f(get)
@@ -125,6 +160,7 @@ class ScratchMath {
 	Len   = mat_reporter_f(length)
 	Norm  = mat_reporter_f(normalize)
 	Size  = mat_reporter_f(m => [[m.length]])
+	Sqrt  = mat_reporter_f(a=> component_wise2D((a,b)=>Math.sqrt(a))(a,[[1]]))
 }
 
 
