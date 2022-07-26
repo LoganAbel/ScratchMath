@@ -7,6 +7,4 @@ to try out, go here: https://turbowarp.org/717031217, right click, inspect, and 
 fetch('https://raw.githubusercontent.com/LoganAbel/ScratchMath/main/Math.js').then(r=>r.text()).then(t=>eval(t))
 ```
 
-vectors are represented as a string seperated by commas like this: "1,2,3"
-
-list are represented as a string seperated by spaces like this: "1 2 3" and this: "1,2,3 4,5,6 7,8,9"
+The goal of this project is to create a extension that significantly reduces the amount of code you need to right to get 3d rendering in scratch, while making it still have good preformance
