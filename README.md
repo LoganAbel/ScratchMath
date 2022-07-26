@@ -3,7 +3,7 @@
 Welcome to scratch math! feel free to test out the extension, look at the code, provide suggestions, or ask for help
 
 to try out, go here: https://turbowarp.org/717031217, right click, inspect, and run this in the console: 
-```
+```js
 fetch('https://raw.githubusercontent.com/LoganAbel/ScratchExtension/main/Math.js').then(r=>r.text()).then(t=>eval(t))
 ```
 
