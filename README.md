@@ -4,7 +4,7 @@ Welcome to scratch math! feel free to test out the extension, look at the code, 
 
 to try out, go here: https://turbowarp.org/717031217, right click, inspect, and run this in the console: 
 ```js
-fetch('https://raw.githubusercontent.com/LoganAbel/ScratchExtension/main/Math.js').then(r=>r.text()).then(t=>eval(t))
+fetch('https://raw.githubusercontent.com/LoganAbel/ScratchMath/main/Math.js').then(r=>r.text()).then(t=>eval(t))
 ```
 
 vectors are represented as a string seperated by commas like this: "1,2,3"
