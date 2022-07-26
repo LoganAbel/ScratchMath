@@ -1,25 +1,3 @@
-// I dont have access to javascript's math library, because that is stored in window
-
-const sqrt = n => {
-  let x = 1
-  for(let i = 1; i < 100; i++) {
-    x -= (x * x - n) / (2 * x)
-  }
-  return x
-}
-
-const pi = 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148
-const sin = a => {
-  a = (a % 360) * pi / 180;
-  let x = 0;
-  let p = a;
-  for(let i = 0; i < 20; i++) {
-  	x += p;
-    p *= - a * a / (2 * i + 2) / (2 * i + 3);
-  }
-  return x;
-}
-
 // ============== linear algebra ============== 
 
 const from_s = s => (''+s).split(' ').map(s=> s.split(',').map(v=> isNaN(+v) ? 0 : +v))
@@ -60,14 +38,15 @@ const dot = (a,b) => {
 const det = (m,i1,i2) => m[0][i1%3]*m[1][i2%3]-m[0][i2%3]*m[1][i1%3]
 const cross = component_wise((a,b)=> a.map((_,i)=>det([a,b], i+1, i+2)))
 
-const length = m => m.map(v=> dot([v],[v]).map(v=> sqrt(v)))
+const length = m => m.map(v=> dot([v],[v]).map(v=> Math.sqrt(v)))
 const normalize = m => div2D(m,length(m))
 
 const rotate = (a,v) => {
-	a = a[0][0]
-	const s = sin(a)
-	const c = sin(90 + a)
+	a = a[0][0] * Math.PI / 180
 	v = normalize(v)[0]
+
+	const s = Math.sin(a)
+	const c = Math.cos(a)
 
 	const f1 = i => c + v[i] * v[i] * (1-c)
 	const f2 = (i, n) => v[(i+1)%3] * v[(i+2)%3] * (1-c) + n * v[i] * s
@@ -100,7 +79,7 @@ const auto_reporter = (opcode, text, args) => ({
 })
 const mat_reporter_f = f => o => to_s(f(...new Array(Object.entries(o).length).fill().map((_,i)=> from_s(o[letter(i)]))))
 
-class Math {
+class ScratchMath {
 
 	getInfo() {
     return {
@@ -123,6 +102,8 @@ class Math {
       	auto_reporter("Cross", '[a] cross [b]'),
       	auto_reporter("Len", 'length of [a]'),
       	auto_reporter("Norm",'normalize [a]'),
+      	auto_reporter("Size",'size of [a]'),
+      	
     	]
     }
 	}
@@ -143,7 +124,13 @@ class Math {
 	Cross = mat_reporter_f(cross)
 	Len   = mat_reporter_f(length)
 	Norm  = mat_reporter_f(normalize)
+	Size  = mat_reporter_f(m => [[m.length]])
 }
 
 
-Scratch.extensions.register(new Math());
+
+(function() {
+    var extensionInstance = new ScratchMath(window.vm.extensionManager.runtime)
+    var serviceName = window.vm.extensionManager._registerInternalExtension(extensionInstance)
+    window.vm.extensionManager._loadedExtensions.set(extensionInstance.getInfo().id, serviceName)
+})()
