@@ -183,7 +183,7 @@ function findReactComponent(element) {
     return fiber.stateNode;
 }
 
-window.vm = findReactComponent(document.getElementsByClassName("stage-header_stage-size-row_14N65")[0]).props.vm
+window.vm = findReactComponent(document.getElementsByClassName("stage-header_stage-size-row_14N65")[0]).props.vm;
 
 (function() {
     var extensionInstance = new ScratchMath(window.vm.extensionManager.runtime)
