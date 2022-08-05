@@ -163,7 +163,27 @@ class ScratchMath {
 	Sqrt  = mat_reporter_f(a=> component_wise2D((a,b)=>Math.sqrt(a))(a,[[1]]))
 }
 
+// ============== globalize vm and load extension ===============
 
+function findReactComponent(element) {
+    let fiber = element[Object.keys(element).find(key => key.startsWith("__reactInternalInstance$"))];
+    if (fiber == null) return null;
+
+    const go = fiber => {
+        let parent = fiber.return;
+        while (typeof parent.type == "string") {
+            parent = parent.return;
+        }
+        return parent;
+    };
+    fiber = go(fiber);
+    while(fiber.stateNode == null) {
+        fiber = go(fiber);
+    }
+    return fiber.stateNode;
+}
+
+window.vm = findReactComponent(document.getElementsByClassName("stage-header_stage-size-row_14N65")[0]).props.vm
 
 (function() {
     var extensionInstance = new ScratchMath(window.vm.extensionManager.runtime)
